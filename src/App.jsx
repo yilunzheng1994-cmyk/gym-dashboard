@@ -514,7 +514,7 @@ function App() {
                     <th className="text-left p-2">PT Rate</th>
                     <th className="text-left p-2">New Revenue</th>
                     <th className="text-left p-2"></th>
-                  <tr>
+                  </td>
                 </thead>
                 <tbody>
                   {[...entries].sort((a, b) => new Date(b.date) - new Date(a.date)).map(entry => {
@@ -525,7 +525,7 @@ function App() {
                         <td className="p-2">{entry.memberCount || 0}</td>
                         <td className="p-2">{entry.classHours || 0}</td>
                         <td className="p-2">{entry.ptHours || 0}</td>
-                        <td className="p-2">${entry.ptRate || 50}/hr</td>
+                        <td className="p-2">${entry.ptRate || 50}/hr}</td>
                         <td className="p-2">${entry.newRevenue?.toLocaleString() || 0}</td>
                         <td className="p-2">
                           <button onClick={() => deleteEntry(entry.id)} className="text-red-500 hover:text-red-700">
