@@ -9,7 +9,10 @@ import {
   Legend,
   ResponsiveContainer,
   BarChart,
-  Bar
+  Bar,
+  PieChart,
+  Pie,
+  Cell
 } from 'recharts'
 import Settings from './Settings'
 
@@ -226,6 +229,11 @@ function App() {
       }
     })
 
+  // Colors for revenue pie chart
+  const REVENUE_COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']
+  // Colors for costs pie chart
+  const COSTS_COLORS = ['#6b7280', '#8b5cf6', '#ec489a', '#f97316', '#06b6d4']
+
   return (
     <div className="min-h-screen bg-gray-100 p-3 md:p-6">
       <div className="max-w-6xl mx-auto">
@@ -250,25 +258,99 @@ function App() {
           </div>
         )}
 
-        {/* P&L Cards */}
+        {/* P&L Cards with Pie Charts */}
         {latestEntry && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            {/* Revenue Card with Pie Chart */}
             <div className="bg-white rounded-lg shadow p-4">
               <div className="text-gray-500 text-sm mb-2">Total Revenue</div>
               <div className="text-2xl font-bold text-green-600">
                 ${metrics.totalRevenue.toLocaleString()}
               </div>
+              <div className="mt-3">
+                <ResponsiveContainer width="100%" height={160}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'New Members', value: metrics.revenueBreakdown.newRevenue },
+                        { name: 'PT Revenue', value: metrics.revenueBreakdown.ptRevenue },
+                        { name: 'Retail', value: metrics.revenueBreakdown.retailRevenue },
+                        { name: 'Other', value: metrics.revenueBreakdown.otherRevenue }
+                      ].filter(item => item.value > 0)}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={60}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      labelLine={true}
+                    >
+                      {[
+                        { name: 'New Members', value: metrics.revenueBreakdown.newRevenue },
+                        { name: 'PT Revenue', value: metrics.revenueBreakdown.ptRevenue },
+                        { name: 'Retail', value: metrics.revenueBreakdown.retailRevenue },
+                        { name: 'Other', value: metrics.revenueBreakdown.otherRevenue }
+                      ].filter(item => item.value > 0).map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={REVENUE_COLORS[index % REVENUE_COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
             </div>
+
+            {/* Costs Card with Pie Chart */}
             <div className="bg-white rounded-lg shadow p-4">
               <div className="text-gray-500 text-sm mb-2">Total Costs</div>
               <div className="text-2xl font-bold text-red-600">
                 ${metrics.totalCosts.toLocaleString()}
               </div>
+              <div className="mt-3">
+                <ResponsiveContainer width="100%" height={160}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Fixed Costs', value: metrics.costBreakdown.fixedCosts },
+                        { name: 'Variable Staff', value: metrics.costBreakdown.variableStaff },
+                        { name: 'Marketing', value: metrics.costBreakdown.marketing },
+                        { name: 'PT Commission', value: metrics.costBreakdown.ptCommission },
+                        { name: 'Depreciation', value: metrics.costBreakdown.depreciation }
+                      ].filter(item => item.value > 0)}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={60}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      labelLine={true}
+                    >
+                      {[
+                        { name: 'Fixed Costs', value: metrics.costBreakdown.fixedCosts },
+                        { name: 'Variable Staff', value: metrics.costBreakdown.variableStaff },
+                        { name: 'Marketing', value: metrics.costBreakdown.marketing },
+                        { name: 'PT Commission', value: metrics.costBreakdown.ptCommission },
+                        { name: 'Depreciation', value: metrics.costBreakdown.depreciation }
+                      ].filter(item => item.value > 0).map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COSTS_COLORS[index % COSTS_COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
             </div>
+
+            {/* Net Profit Card */}
             <div className="bg-white rounded-lg shadow p-4">
               <div className="text-gray-500 text-sm mb-2">Net Profit</div>
               <div className={`text-2xl font-bold ${metrics.netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                 ${metrics.netProfit.toLocaleString()}
+              </div>
+              <div className="text-xs text-gray-400 mt-2">
+                Margin: {metrics.totalRevenue > 0 ? ((metrics.netProfit / metrics.totalRevenue) * 100).toFixed(1) : 0}%
               </div>
             </div>
           </div>
@@ -306,6 +388,27 @@ function App() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
+            <div className="bg-white rounded-lg shadow p-4">
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">New Members & PT Hours</h3>
+              <ResponsiveContainer width="100%" height={200}>
+                <BarChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis yAxisId="left" />
+                  <YAxis yAxisId="right" orientation="right" />
+                  <Tooltip />
+                  <Legend />
+                  <Bar yAxisId="left" dataKey="newMembers" fill="#f59e0b" name="New Members" />
+                  <Bar yAxisId="right" dataKey="ptHours" fill="#ec489a" name="PT Hours" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {chartData.length === 0 && (
+          <div className="bg-white rounded-lg shadow p-4 mb-6 text-center text-gray-500 text-sm">
+            <p>Add your first data entry to see charts and insights</p>
           </div>
         )}
 
@@ -347,7 +450,7 @@ function App() {
                     <th className="p-2 text-left">PT Hrs</th>
                     <th className="p-2 text-left">PT Rate</th>
                     <th className="p-2 text-left"></th>
-                   </tr>
+                  </tr>
                 </thead>
                 <tbody>
                   {[...entries].sort((a, b) => new Date(b.date) - new Date(a.date)).map(entry => (
@@ -363,7 +466,7 @@ function App() {
                     </tr>
                   ))}
                 </tbody>
-               </table>
+              </table>
             </div>
           </div>
         )}
