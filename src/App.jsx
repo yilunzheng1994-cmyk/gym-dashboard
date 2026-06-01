@@ -153,7 +153,7 @@ function App() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <h1 className="text-xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-6">
-          CrossFit Financial Dashboard
+          Fitness Financial Dashboard
         </h1>
 
         {/* Main Metric Cards - Row 1 */}
