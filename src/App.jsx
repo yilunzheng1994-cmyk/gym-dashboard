@@ -264,7 +264,7 @@ function App() {
         {/* Profit & Loss Section - Row 1 */}
         {latestEntry && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            {/* Revenue Card with mini pie chart - Simplified */}
+            {/* Revenue Card */}
             <div className="bg-white rounded-lg shadow p-4">
               <div className="text-gray-500 text-sm mb-2">Total Revenue</div>
               <div className="text-2xl font-bold text-green-600">
@@ -514,7 +514,7 @@ function App() {
                     <th className="text-left p-2">PT Rate</th>
                     <th className="text-left p-2">New Revenue</th>
                     <th className="text-left p-2"></th>
-                   </tr>
+                  <tr>
                 </thead>
                 <tbody>
                   {[...entries].sort((a, b) => new Date(b.date) - new Date(a.date)).map(entry => {
@@ -532,7 +532,7 @@ function App() {
                             Delete
                           </button>
                         </td>
-                       </tr>
+                      </tr>
                     )
                   })}
                 </tbody>

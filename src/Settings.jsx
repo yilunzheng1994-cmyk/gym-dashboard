@@ -19,10 +19,12 @@ function Settings({ settings, onSave, onClose }) {
   }, [settings])
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    const { name, value } = e.target
+    if (name === 'ptCommissionRate') {
+      setFormData({ ...formData, [name]: parseFloat(value) / 100 })
+    } else {
+      setFormData({ ...formData, [name]: parseFloat(value) || 0 })
+    }
   }
 
   const handleSubmit = (e) => {
@@ -31,54 +33,73 @@ function Settings({ settings, onSave, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-semibold">Business Settings</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000
+    }}>
+      <div style={{
+        backgroundColor: 'white',
+        borderRadius: '12px',
+        maxWidth: '600px',
+        width: '90%',
+        maxHeight: '80vh',
+        overflow: 'auto',
+        padding: '24px'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>Business Settings</h2>
+          <button onClick={onClose} style={{ fontSize: '24px', cursor: 'pointer' }}>&times;</button>
         </div>
         
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Monthly Rent ($)</label>
-              <input type="number" name="monthlyRent" value={formData.monthlyRent} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+              <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px' }}>Monthly Rent ($)</label>
+              <input type="number" name="monthlyRent" value={formData.monthlyRent} onChange={handleChange} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '8px' }} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Monthly Utilities ($)</label>
-              <input type="number" name="monthlyUtilities" value={formData.monthlyUtilities} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+              <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px' }}>Monthly Utilities ($)</label>
+              <input type="number" name="monthlyUtilities" value={formData.monthlyUtilities} onChange={handleChange} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '8px' }} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Equipment Value ($)</label>
-              <input type="number" name="equipmentValue" value={formData.equipmentValue} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+              <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px' }}>Equipment Value ($)</label>
+              <input type="number" name="equipmentValue" value={formData.equipmentValue} onChange={handleChange} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '8px' }} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Depreciation (months)</label>
-              <input type="number" name="equipmentDepreciationMonths" value={formData.equipmentDepreciationMonths} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+              <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px' }}>Depreciation (months)</label>
+              <input type="number" name="equipmentDepreciationMonths" value={formData.equipmentDepreciationMonths} onChange={handleChange} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '8px' }} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">PT Commission Rate (%)</label>
-              <input type="number" name="ptCommissionRate" value={formData.ptCommissionRate * 100} onChange={(e) => setFormData({...formData, ptCommissionRate: e.target.value / 100})} className="w-full p-2 border rounded-lg" step="1" />
+              <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px' }}>PT Commission Rate (%)</label>
+              <input type="number" name="ptCommissionRate" value={formData.ptCommissionRate * 100} onChange={handleChange} step="1" style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '8px' }} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Fixed Staff Cost ($/month)</label>
-              <input type="number" name="fixedStaffCost" value={formData.fixedStaffCost} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+              <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px' }}>Fixed Staff Cost ($/month)</label>
+              <input type="number" name="fixedStaffCost" value={formData.fixedStaffCost} onChange={handleChange} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '8px' }} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Monthly Marketing ($)</label>
-              <input type="number" name="monthlyMarketing" value={formData.monthlyMarketing} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+              <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px' }}>Monthly Marketing ($)</label>
+              <input type="number" name="monthlyMarketing" value={formData.monthlyMarketing} onChange={handleChange} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '8px' }} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Monthly Insurance ($)</label>
-              <input type="number" name="monthlyInsurance" value={formData.monthlyInsurance} onChange={handleChange} className="w-full p-2 border rounded-lg" />
+              <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px' }}>Monthly Insurance ($)</label>
+              <input type="number" name="monthlyInsurance" value={formData.monthlyInsurance} onChange={handleChange} style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '8px' }} />
             </div>
           </div>
           
-          <div className="flex justify-end gap-3 pt-4 border-t">
-            <button type="button" onClick={onClose} className="px-4 py-2 border rounded-lg hover:bg-gray-50">
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #eee' }}>
+            <button type="button" onClick={onClose} style={{ padding: '8px 16px', border: '1px solid #ccc', borderRadius: '8px', background: 'white', cursor: 'pointer' }}>
               Cancel
             </button>
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+            <button type="submit" style={{ padding: '8px 16px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
               Save Settings
             </button>
           </div>
