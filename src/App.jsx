@@ -217,7 +217,7 @@ function App() {
           </div>
         </div>
 
-        {/* Charts Section - Mobile friendly */}
+        {/* Charts Section */}
         {chartData.length > 0 && (
           <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-6 mb-4 md:mb-6">
             <div className="bg-white rounded-lg shadow p-3 md:p-4">
@@ -406,7 +406,7 @@ function App() {
                     <th className="text-left p-2">Marketing</th>
                     <th className="text-left p-2">CAC</th>
                     <th className="text-left p-2"></th>
-                  </table>
+                  </tr>
                 </thead>
                 <tbody>
                   {entries.map(entry => {
