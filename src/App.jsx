@@ -20,6 +20,7 @@ function App() {
     newMembers: '',
     newRevenue: '',
     ptHours: '',
+    ptRate: '50',
     retailRevenue: '',
     marketingSpend: ''
   })
@@ -57,6 +58,7 @@ function App() {
       newMembers: Number(formData.newMembers) || 0,
       newRevenue: Number(formData.newRevenue) || 0,
       ptHours: Number(formData.ptHours) || 0,
+      ptRate: Number(formData.ptRate) || 50,
       retailRevenue: Number(formData.retailRevenue) || 0,
       marketingSpend: Number(formData.marketingSpend) || 0
     }
@@ -71,6 +73,7 @@ function App() {
       newMembers: '',
       newRevenue: '',
       ptHours: '',
+      ptRate: '50',
       retailRevenue: '',
       marketingSpend: ''
     })
@@ -96,9 +99,9 @@ function App() {
   }
   
   if (latestEntry) {
-    const totalRevenue = latestEntry.newRevenue + latestEntry.retailRevenue
-    const ptRevenue = latestEntry.ptHours * 50
-    const totalIncome = totalRevenue + ptRevenue
+    const ptRevenue = (latestEntry.ptHours || 0) * (latestEntry.ptRate || 50)
+    const totalRevenue = latestEntry.newRevenue + latestEntry.retailRevenue + ptRevenue
+    const totalIncome = totalRevenue
     
     metrics.availableCash = latestEntry.cashBalance
     metrics.todayProfit = totalIncome - latestEntry.marketingSpend
@@ -108,7 +111,7 @@ function App() {
       : 0
     
     metrics.arpu = latestEntry.newMembers > 0 
-      ? totalRevenue / latestEntry.newMembers 
+      ? (latestEntry.newRevenue + latestEntry.retailRevenue) / latestEntry.newMembers 
       : 0
     
     metrics.ptConversionRate = totalRevenue > 0 
@@ -128,7 +131,7 @@ function App() {
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .slice(-7)
     .map(entry => {
-      const ptRevenue = entry.ptHours * 50
+      const ptRevenue = (entry.ptHours || 0) * (entry.ptRate || 50)
       const totalIncome = entry.newRevenue + entry.retailRevenue + ptRevenue
       const cac = entry.newMembers > 0 ? entry.marketingSpend / entry.newMembers : 0
       
@@ -138,8 +141,10 @@ function App() {
         profit: totalIncome - entry.marketingSpend,
         newMembers: entry.newMembers,
         ptHours: entry.ptHours,
+        ptRate: entry.ptRate || 50,
         cac: cac,
-        marketingSpend: entry.marketingSpend
+        marketingSpend: entry.marketingSpend,
+        ptRevenue: ptRevenue
       }
     })
 
@@ -328,6 +333,10 @@ function App() {
                 <input type="number" name="ptHours" value={formData.ptHours} onChange={handleChange} placeholder="0" className="w-full p-2 text-sm md:text-base border rounded-lg" />
               </div>
               <div>
+                <label className="block text-xs md:text-sm text-gray-600 mb-1">PT Rate ($/hr)</label>
+                <input type="number" name="ptRate" value={formData.ptRate} onChange={handleChange} placeholder="50" className="w-full p-2 text-sm md:text-base border rounded-lg" />
+              </div>
+              <div>
                 <label className="block text-xs md:text-sm text-gray-600 mb-1">Retail Revenue ($)</label>
                 <input type="number" name="retailRevenue" value={formData.retailRevenue} onChange={handleChange} placeholder="0" className="w-full p-2 text-sm md:text-base border rounded-lg" />
               </div>
@@ -368,6 +377,8 @@ function App() {
                       <span className="text-right">${entry.newRevenue.toLocaleString()}</span>
                       <span className="text-gray-500">PT Hours:</span>
                       <span className="text-right">{entry.ptHours}</span>
+                      <span className="text-gray-500">PT Rate:</span>
+                      <span className="text-right">${entry.ptRate || 50}/hr</span>
                       <span className="text-gray-500">Retail:</span>
                       <span className="text-right">${entry.retailRevenue.toLocaleString()}</span>
                       <span className="text-gray-500">Marketing:</span>
@@ -390,11 +401,12 @@ function App() {
                     <th className="text-left p-2">New Members</th>
                     <th className="text-left p-2">New Revenue</th>
                     <th className="text-left p-2">PT Hours</th>
+                    <th className="text-left p-2">PT Rate</th>
                     <th className="text-left p-2">Retail</th>
                     <th className="text-left p-2">Marketing</th>
                     <th className="text-left p-2">CAC</th>
                     <th className="text-left p-2"></th>
-                  </tr>
+                  </table>
                 </thead>
                 <tbody>
                   {entries.map(entry => {
@@ -406,6 +418,7 @@ function App() {
                         <td className="p-2">{entry.newMembers}</td>
                         <td className="p-2">${entry.newRevenue.toLocaleString()}</td>
                         <td className="p-2">{entry.ptHours}</td>
+                        <td className="p-2">${entry.ptRate || 50}/hr</td>
                         <td className="p-2">${entry.retailRevenue.toLocaleString()}</td>
                         <td className="p-2">${entry.marketingSpend.toLocaleString()}</td>
                         <td className="p-2">${cac}</td>
