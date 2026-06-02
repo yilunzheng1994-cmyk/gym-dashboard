@@ -256,7 +256,7 @@ function App() {
   const COSTS_COLORS = ['#6b7280', '#8b5cf6', '#ec489a', '#f97316', '#06b6d4']
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-green-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
@@ -281,7 +281,7 @@ function App() {
         </div>
 
         {!businessSettings && (
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded">
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded shadow-sm">
             <p className="text-yellow-700 text-sm">
               ⚠️ Please click Settings to configure your business costs (rent, staff, etc.)
             </p>
@@ -293,7 +293,7 @@ function App() {
           <>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
               {/* Revenue Card */}
-              <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100 hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="text-gray-500 text-sm font-medium mb-1">Total Revenue</div>
@@ -321,7 +321,7 @@ function App() {
               </div>
 
               {/* Gross Profit Card */}
-              <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100 hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="text-gray-500 text-sm font-medium mb-1">Gross Profit</div>
@@ -349,7 +349,7 @@ function App() {
               </div>
 
               {/* Net Income Card */}
-              <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100 hover:shadow-md transition-shadow">
+              <div className="bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="text-gray-500 text-sm font-medium mb-1">Net Income</div>
@@ -382,19 +382,19 @@ function App() {
 
             {/* Secondary Metrics */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-white rounded-lg p-3 border border-gray-100">
+              <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
                 <div className="text-gray-500 text-xs mb-1">Cash Balance</div>
                 <div className="text-lg font-bold text-gray-900">${(latestEntry.cashBalanceStart || 0).toLocaleString()}</div>
               </div>
-              <div className="bg-white rounded-lg p-3 border border-gray-100">
+              <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
                 <div className="text-gray-500 text-xs mb-1">Active Members</div>
                 <div className="text-lg font-bold text-gray-900">{latestEntry.memberCount || 0}</div>
               </div>
-              <div className="bg-white rounded-lg p-3 border border-gray-100">
+              <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
                 <div className="text-gray-500 text-xs mb-1">PT Sessions</div>
                 <div className="text-lg font-bold text-gray-900">{latestEntry.ptHours || 0}</div>
               </div>
-              <div className="bg-white rounded-lg p-3 border border-gray-100">
+              <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
                 <div className="text-gray-500 text-xs mb-1">Utilization</div>
                 <div className="text-lg font-bold text-gray-900">72%</div>
               </div>
@@ -404,7 +404,7 @@ function App() {
 
         {/* Cash Flow Section */}
         {latestEntry && (
-          <div className="bg-white rounded-xl shadow-sm p-5 mb-6 border border-gray-100">
+          <div className="bg-white rounded-xl p-5 mb-6 shadow-md border border-gray-100">
             <div className="flex items-center gap-2 mb-4">
               <DollarSign className="w-5 h-5 text-gray-500" />
               <h3 className="text-md font-semibold text-gray-800">Cash Flow Summary</h3>
@@ -442,7 +442,7 @@ function App() {
         {latestEntry && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Revenue Breakdown */}
-            <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+            <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
               <div className="flex items-center gap-2 mb-4">
                 <PieChartIcon className="w-5 h-5 text-gray-500" />
                 <h3 className="text-md font-semibold text-gray-800">Revenue Breakdown</h3>
@@ -480,7 +480,7 @@ function App() {
             </div>
 
             {/* Cost Breakdown */}
-            <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+            <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
               <div className="flex items-center gap-2 mb-4">
                 <CreditCard className="w-5 h-5 text-gray-500" />
                 <h3 className="text-md font-semibold text-gray-800">Cost Breakdown</h3>
@@ -524,7 +524,7 @@ function App() {
         {/* Charts Section */}
         {chartData.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+            <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
               <h3 className="text-md font-semibold text-gray-800 mb-4">Revenue & Profit Trend</h3>
               <ResponsiveContainer width="100%" height={250}>
                 <LineChart data={chartData}>
@@ -538,7 +538,7 @@ function App() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+            <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
               <h3 className="text-md font-semibold text-gray-800 mb-4">New Members & PT Hours</h3>
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={chartData}>
@@ -557,13 +557,13 @@ function App() {
         )}
 
         {chartData.length === 0 && (
-          <div className="bg-white rounded-xl shadow-sm p-8 mb-6 text-center text-gray-500">
+          <div className="bg-white rounded-xl p-8 mb-6 text-center text-gray-500 shadow-sm">
             <p>Add your first data entry to see charts and insights</p>
           </div>
         )}
 
         {/* Form */}
-        <div className="bg-white rounded-xl shadow-sm p-5 mb-6 border border-gray-100">
+        <div className="bg-white rounded-xl p-5 mb-6 shadow-md border border-gray-100">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Daily Data Entry</h2>
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -624,11 +624,11 @@ function App() {
 
         {/* History Table */}
         {entries.length > 0 && (
-          <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+          <div className="bg-white rounded-xl p-5 shadow-md border border-gray-100">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Recent Records</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50">
+                <thead className="bg-gray-50 rounded-t-lg">
                   <tr className="border-b border-gray-200">
                     <th className="p-3 text-left text-gray-600 font-medium">Date</th>
                     <th className="p-3 text-left text-gray-600 font-medium">Cash</th>
