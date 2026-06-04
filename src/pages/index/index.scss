@@ -1,0 +1,81 @@
+.index {
+  padding: 32rpx;
+  min-height: 100vh;
+  background: #f5f5f5;
+  box-sizing: border-box;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 48rpx;
+    padding: 0 16rpx;
+
+    .title {
+      font-size: 44rpx;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .confidence {
+      font-size: 28rpx;
+      color: #999;
+    }
+  }
+
+  .kpi-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 24rpx;
+    margin-bottom: 48rpx;
+    padding: 0 16rpx;
+
+    .kpi-card {
+      flex: 1;
+      background: #fff;
+      border-radius: 24rpx;
+      padding: 48rpx 16rpx;
+      text-align: center;
+      box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+
+      .kpi-label {
+        font-size: 28rpx;
+        color: #666;
+        display: block;
+        margin-bottom: 16rpx;
+      }
+
+      .kpi-value {
+        font-size: 48rpx;
+        font-weight: bold;
+        color: #1890ff;
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 24rpx;
+    padding: 0 16rpx;
+
+    .btn {
+      flex: 1;
+      text-align: center;
+      padding: 28rpx;
+      border-radius: 16rpx;
+      font-size: 32rpx;
+
+      &.btn-primary {
+        background: #1890ff;
+        color: #fff;
+      }
+
+      &.btn-secondary {
+        background: #fff;
+        color: #333;
+        border: 2rpx solid #ddd;
+      }
+    }
+  }
+}
